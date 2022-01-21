@@ -29,5 +29,4 @@ WORKDIR /home/node
 COPY --from=production-builder /home/node/node_modules ./node_modules
 COPY --from=development /home/node/package.json ./
 COPY --from=development /home/node/dist ./
-COPY --from=development /home/node/dist/migrations ./dist/migrations
-CMD ["/bin/sh", "-c", "node ./node_modules/typeorm/cli.js migration:run && node src/main"]
+CMD ["/bin/sh", "-c", "node src/main"]
