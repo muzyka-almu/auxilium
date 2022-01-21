@@ -29,4 +29,4 @@ WORKDIR /home/node
 COPY --from=production-builder /home/node/node_modules ./node_modules
 COPY --from=development /home/node/package.json ./
 COPY --from=development /home/node/dist ./
-CMD ["/bin/sh", "-c", "node src/main"]
+CMD ["/bin/sh", "-c", "node main"]
