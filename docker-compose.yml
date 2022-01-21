@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:5.7
+    env_file:
+      - .env
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3310:3306
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d/
+    networks:
+      - auxilium-network
+  app:
+    build:
+      context: .
+      target: development
+      args:
+        NPM_TOKEN: ${GITHUB_TOKEN}
+    volumes:
+      - .:/home/node
+      - auxilium_node_modules:/home/node/node_modules
+      - auxilium_dist:/home/node/dist
+    command: npm run local:start
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      PORT: ${PORT}
+    ports:
+      - 8000:8000
+    depends_on:
+      - mysql
+    networks:
+      - auxilium-network
+volumes:
+  auxilium_node_modules:
+  auxilium_dist:
+networks:
+  auxilium-network:
