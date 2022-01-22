@@ -26,7 +26,7 @@ services:
       - .:/home/node
       - auxilium_node_modules:/home/node/node_modules
       - auxilium_dist:/home/node/dist
-    command: npm run local:start
+    command: npm run start:dev
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
